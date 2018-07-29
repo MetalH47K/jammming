@@ -30,18 +30,48 @@ class App extends React.Component {
 		searchResults: results,
 		playlistName: 'Jacks Awesome Playlist',
 		playlistTracks:	playList
-		}
+    }
+    
+  this.addTrack = this.addTrack.bind(this);
+  this.removeTrack = this.removeTrack.bind(this);
+  this.updatePlaylistName = this.updatePlaylistName.bind(this);
+  this.savePlaylist = this.savePlaylist.bind(this);
+  this.savePlaylist = this.search.bind(this);
 	}
-	
+  
+  addTrack(track) {
+    if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
+      return;
+    }
+  }
+
+  removeTrack(track) {
+    if (this.state.playlistTracks.find(savedTrack => savedTrack.id === trackid)){
+      //Not sure what to put here
+    }
+  }
+
+  updatePlaylistName(name) {
+    this.setState({playlistName: name})
+  }
+
+  savePlaylist = () => {
+    //No idea what I am doing here
+  } 
+
+  search(term) {
+    console.log(term)
+  }
+
   render() {
     return (
     <div>
     <h1>Ja<span className="highlight">mmm</span>ing</h1>
     <div className="App">
-      <SearchBar />
+      <SearchBar onSearch={this.search}/>
       <div className="App-playlist">
-        <SearchResults SearchResults={this.state.searchResults} />
-        <playList playlistName={this.state.playlistName} playlistTacks={this.state.playlistTracks} />
+        <SearchResults SearchResults={this.state.searchResults} onAdd={this.addTrack} />
+        <playList playlistName={this.state.playlistName} playlistTacks={this.state.playlistTracks} onRemove={this.removeTrack} onNameChange={this.updatePlayListName} onClick={this.props.onSave}/>
       </div>
     </div>
   </div>
