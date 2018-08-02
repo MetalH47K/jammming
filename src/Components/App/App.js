@@ -1,84 +1,82 @@
-import React from 'react'
+import React, { Component } from 'react';
+import './App.css';
+import PlayList from '../PlayList/PlayList';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
-import Playlist from '../Playlist/Playlist';
-import '/App.css'
+import Spotify from '../../util/Spotify';
 
-/*I'm not quite sure what it means by hardcoding 
-"an array of objects, each containing name, artist, album, and id properties."
-*/
-
-const results = {
-	name: 'These Coding Days',
-	artist: 'Jack Henry',
-	album:	'Learning the Ropes',
-	id:	1
-	};
-	
-const playList = {
-	name: 'TEST',
-	artist: 'Jack Henry',
-	album:	'Testing the Ropes',
-	id:	2	
-}
-
-class App extends React.Component {
-	constructor(props) {
+class App extends Component {
+  constructor(props){
     super(props);
 
     this.state = {
-		searchResults: results,
-		playlistName: 'Jacks Awesome Playlist',
-		playlistTracks:	playList
+      searchResults: [],
+      playListName: 'My playlist',
+      playListTracks: []
     }
-    
-  this.addTrack = this.addTrack.bind(this);
-  this.removeTrack = this.removeTrack.bind(this);
-  this.updatePlaylistName = this.updatePlaylistName.bind(this);
-  this.savePlaylist = this.savePlaylist.bind(this);
-  this.savePlaylist = this.search.bind(this);
-	}
-  
-  addTrack(track) {
-    if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
-      return;
-    }
+
+    this.addTrack = this.addTrack.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
+    this.updatePlayListName = this.updatePlayListName.bind(this);
+    this.savePlayList = this.savePlayList.bind(this);
+    this.search = this.search.bind(this);
   }
 
-  removeTrack(track) {
-    if (this.state.playlistTracks.find(savedTrack => savedTrack.id === trackid)){
-      //Not sure what to put here
-    }
+
+  // add song
+  addTrack(track){  // adds a song to the playlistTracks state.
+    let tracks = this.state.playListTracks;
+    tracks.push(track);
+    this.setState({playListTracks: tracks});
   }
 
-  updatePlaylistName(name) {
-    this.setState({playlistName: name})
+
+  // remove song
+  removeTrack(track){  // remove a song to the playListTracks state.
+    let tracks = this.state.playListTracks;
+    tracks = tracks.filter(savedTrack => savedTrack.id !== track.id); // leave the wanted ones in the playList
+    this.setState({playListTracks: tracks});
   }
 
-  savePlaylist = () => {
-    //No idea what I am doing here
-  } 
 
-  search(term) {
-    console.log(term)
+  // change playList name
+  updatePlayListName(name){
+    this.setState({playListName: name});
+  }
+
+  // save generated playList to Spotify account
+  savePlayList(){
+    let trackUris = this.state.playListTracks.map(track => track.uri);
+    Spotify.savePlayList(this.state.playListName, trackUris);
+    this.setState({playListName: 'New PlayList', playListTracks: []});
+  }
+
+  //  to search a Song
+  search(term){
+    Spotify.search(term).then(results => {
+      this.setState({searchResults: results})
+    });
   }
 
   render() {
     return (
-    <div>
-    <h1>Ja<span className="highlight">mmm</span>ing</h1>
-    <div className="App">
-      <SearchBar onSearch={this.search}/>
-      <div className="App-playlist">
-        <SearchResults SearchResults={this.state.searchResults} onAdd={this.addTrack} />
-        <playList playlistName={this.state.playlistName} playlistTacks={this.state.playlistTracks} onRemove={this.removeTrack} onNameChange={this.updatePlayListName} onClick={this.props.onSave}/>
+      <div>
+        <h1>Ja<span className="highlight">mmm</span>ing</h1>
+        <div className="App">
+          <SearchBar onSearch={this.search}/>
+          <div className="App-playlist">
+            <SearchResults searchResults={this.state.searchResults}
+                           onAdd={this.addTrack}/>
+            <PlayList playListName={this.state.playListName}
+                      playListTracks={this.state.playListTracks}
+                      onRemove={this.removeTrack}
+                      onNameChange={this.updatePlayListName}
+                      onSave={this.savePlayList}/>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
     );
-  }; 
-};
+  }
+}
 
 export default App;
-
-

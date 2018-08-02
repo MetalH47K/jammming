@@ -1,42 +1,40 @@
 import React from 'react';
-import './Track.css'
+import './Track.css';
 
-export class Track extends React.Component {
-	constructor(props) {
-		super(props);
+class Track extends React.Component{
+  constructor(props) {
+    super(props);
 
-		this.state = null
+    this.addTrack = this.addTrack.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
+  }
 
-	 this.addTrack = bind.this.addTrack(this);
-	 this.removeTrack = bind.this.removeTrack(this);
-	}
+  addTrack(event) {  // '+' sign
+    this.props.onAdd(this.props.track);
+  }
 
+  removeTrack(event) {  // '-' sign
+    this.props.onRemove(this.props.track);
+  }
 
+  renderAction() {
+    if (this.props.isRemoval) {  // if to remove from playList
+      return <a className="Track-action" onClick={this.removeTrack}> - </a>
+    } // else add to playList
+    return <a className="Track-action" onClick={this.addTrack}> + </a>;
+  }
 
-
-	renderAction = () => {
-		if (this.props.isRemoval === true) {
-			return <a>-</a>
-		} 	else {
-			return <a>+</a>
-		}
-	}
-
-	addTrack = () => {
-		this.props.track = this.props.onAdd
-	}
-
-    render() {
-		return (
-			<div className="Track">
-			<div className="Track-information">
-			<h3>{this.props.track.name}</h3>
-			<p>{this.props.track.artist} | {this.props.track.album}</p>
-			</div>
-  <a class="Track-action" onClick={this.addTrack}>+ or -</a>
-	</div>
-		);
-  };
+  render(){
+    return (
+      <div className="Track">
+        <div className="Track-information">
+          <h3> {this.props.track.name} </h3>
+          <p> {this.props.track.artist} | {this.props.track.album} </p>
+        </div>
+        {this.renderAction()}
+      </div>
+    )
+  }
 }
 
-//Step 55 says to add to the - element. I don't see that element. 
+export default Track;
