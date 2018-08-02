@@ -1,8 +1,8 @@
 //This document renders user Playlist and passes information to TrackList
 
 import React from 'react';
-import './PlayList.css';
-import TrackList from '../Tracklist/TrackList';
+import './Playlist.css';
+import TrackList from '../TrackList/TrackList';
 
 class PlayList extends React.Component {
   constructor(props){
