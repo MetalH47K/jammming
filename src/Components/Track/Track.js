@@ -21,7 +21,7 @@ class Track extends React.Component{
     if(this.props.track.preview_url){
       return (<p><audio controls><source src={this.props.track.preview_url} type="audio/mpeg" /></audio></p>);
     } else {
-      return ;
+      return (<p>No Preview Available</p>);
     }
   }
 
@@ -47,6 +47,7 @@ class Track extends React.Component{
           <h3> {this.props.track.name} </h3>
           <p> {this.props.track.artist} | {this.props.track.album} </p>
         <div className="button-container">
+		<br />
         {this.renderPreview()}
 		</div>
 		</div>
