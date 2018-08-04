@@ -17,6 +17,22 @@ class Track extends React.Component{
     this.props.onRemove(this.props.track);
   }
 
+  renderPreview() {
+    if(this.props.track.preview_url){
+      return (<p><audio controls><source src={this.props.track.preview_url} type="audio/mpeg" /></audio></p>);
+    } else {
+      return ;
+    }
+  }
+
+
+  playAudio() {
+    let url = this.props.track.preview_url;
+    let x = new Audio(url);
+    x.play();
+  }
+  
+  
   renderAction() {
     if (this.props.isRemoval) {  // if to remove from playList
       return <a className="Track-action" onClick={this.removeTrack}> - </a>
@@ -30,8 +46,11 @@ class Track extends React.Component{
         <div className="Track-information">
           <h3> {this.props.track.name} </h3>
           <p> {this.props.track.artist} | {this.props.track.album} </p>
-        </div>
-        {this.renderAction()}
+        <div className="button-container">
+        {this.renderPreview()}
+		</div>
+		</div>
+		{this.renderAction()}
       </div>
     )
   }
