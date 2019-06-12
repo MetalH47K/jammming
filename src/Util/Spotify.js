@@ -1,5 +1,5 @@
 const clientId = 'ad62e72b217142f1853eebf6144dc502';
-const redirectUri = 'http://localhost:3000/';
+const redirectUri = 'https://silly-borg-4ec21b.netlify.com/';
 
 let accessToken;
 
