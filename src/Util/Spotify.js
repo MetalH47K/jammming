@@ -1,4 +1,4 @@
-const clientId = 'ad62e72b217142f1853eebf6144dc502';
+const clientId = 'ff168e4e17d24808bc3630cef4cea6ce';
 const redirectUri = 'https://silly-borg-4ec21b.netlify.com/';
 
 let accessToken;
